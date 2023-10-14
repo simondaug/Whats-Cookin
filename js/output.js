@@ -38,7 +38,9 @@ function getData() {
     let list = document.getElementsByTagName("input");
     let listOfMeals = [];
     for (let i = 0; i < list.length; i++) {
-        listOfMeals.push(list[i].value);
+        if (list[i].value != '') {
+            listOfMeals.push(list[i].value);
+        }
     }
     return listOfMeals;
 }
