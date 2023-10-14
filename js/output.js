@@ -16,12 +16,20 @@ function addOutput(item) {
     base.classList.add("meal-output");
 
     let name = document.createElement("h3");
-    name.innerText = "Meal";
+    name.innerText = "Name of Meal";
     base.appendChild(name);
 
-    let input = document.createElement("input");
-    input.type = "text";
-    base.appendChild(input);
+    let ing = document.createElement("h6");
+    ing.innerText = "Ingredients";
+    base.appendChild(ing);
+
+    let lis = document.createElement("ul");
+    for (let i = 0; i < 10; i++) {
+        let ois = document.createElement("li");
+        ois.innerText = "cow tools";
+        lis.appendChild(ois);
+    }
+    base.appendChild(lis);
 
     document.getElementById("foodOist").appendChild(base);
 }
@@ -37,4 +45,8 @@ function getData() {
 function sort() {
     console.log(getData());
     cleanUp();
+
+    for (let i = 0; i < 10; i++) {
+        addOutput(i);
+    }
 }
