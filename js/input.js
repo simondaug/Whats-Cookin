@@ -22,4 +22,3 @@ function addInput() {
     document.getElementById("foodList").appendChild(base);
 }
 addInput();
-console.log("owo")

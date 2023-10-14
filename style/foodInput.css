@@ -1,5 +1,10 @@
 #foodInput {
     padding: 10px;
+    display: block;
+}
+
+#foodOutput {
+    display: none;
 }
 
 #foodList {
