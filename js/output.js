@@ -3,22 +3,13 @@ function cleanUp() {
     document.getElementById("foodOutput").style.display = "block";
 }
 
-function addOutput() {
+function addOutput(item) {
     let base = document.createElement("div");
-    base.classList.add("meal-input");
+    base.classList.add("meal-output");
 
     let name = document.createElement("h3");
     name.innerText = "Meal";
     base.appendChild(name);
-
-    let close = document.createElement("span");
-    close.classList = "close-button";
-    close.innerHTML = "&times";
-    const me = base;
-    close.onclick = function() {
-        document.getElementById("foodList").removeChild(me);
-    }
-    base.appendChild(close);
 
     let input = document.createElement("input");
     input.type = "text";
@@ -26,7 +17,16 @@ function addOutput() {
 
     document.getElementById("foodOist").appendChild(base);
 }
+
+function getData() {
+    let list = document.getElementsByTagName("input");
+    let listOfMeals = [];
+    for (let i = 0; i < list.length; i++) {
+        listOfMeals.push(list[i].value);
+    }
+    return listOfMeals;
+}
 function sort() {
+    console.log(getData());
     cleanUp();
-    console.log();
 }
