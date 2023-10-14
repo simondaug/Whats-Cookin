@@ -7,7 +7,7 @@ function cleanUp() {
         document.getElementById("loading").style.display = "none";
 
         document.getElementById("foodOutput").style.display = "block";
-    }, 5000);
+    }, 3000);
 
 }
 
