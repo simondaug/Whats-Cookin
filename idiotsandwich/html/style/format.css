@@ -2,8 +2,29 @@
     box-sizing: border-box;
     font-family: var(--font);
 }
+
+body {
+    margin: 0px;
+}
+
 :root {
-    --accent: "#084999";
-    --background: "#ffffff";
+    --accent: #084999;
+    --background: #ffffff;
     --font: "Rubik";
+}
+
+#navbar {
+    color: var(--background);
+    background-color: var(--accent);
+
+    padding: 1%;
+
+    width: 100%;
+    height: fit-content;
+
+    display: grid;
+    grid-template-columns: 93% 7%;
+}
+#navbar h1 {
+    margin: 0px;
 }
