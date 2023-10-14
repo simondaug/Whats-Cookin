@@ -12,15 +12,26 @@
         <link rel="icon" type="image/x-icon" href="./images/logo.png">
 
         <link href='https://fonts.googleapis.com/css?family=Rubik' rel='stylesheet'>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         <!-- My format -->
         <link rel = "stylesheet" type="text/css" href="style/format.css"/>
+        <link rel = "stylesheet" type="text/css" href="style/foodInput.css"/>
+
+        <script type="text/javascript" src="./js/input.js" defer></script>
     </head>
     <body>
         <div id="navbar">
             <h1>Eat Something Other Than Feet?</h1>
-            <a href="/idiotsandwich/html/login.html">Sign In</a>
-            <!-- Make icon for person looking thing like in the site -->
         </div>
-        <h1>Howdy</h1>
+        <div>
+            <h1>About Us</h1>
+        </div>
+        <div id="foodInput">
+            <div>
+                <button onclick="addInput()">Add Another Food</button>
+                <button>Submit</button>
+            </div>
+            <div id="foodList"></div>
+        </div>
     </body>
 </html>

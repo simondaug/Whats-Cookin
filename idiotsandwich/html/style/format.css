@@ -29,14 +29,3 @@ body {
     margin-top: auto;
     margin-bottom: auto;
 }
-#navbar a {
-    text-align: center;
-    padding: 25px 15px;
-    border-radius: 10px;
-    background-color: inherit;
-    text-decoration: none;
-    color: var(--background);
-}
-#navbar a:hover {
-    filter: brightness(125%);
-}
