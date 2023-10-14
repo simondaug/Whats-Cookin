@@ -21,4 +21,6 @@ from idiotsandwich import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello/', views.hello, name='hello'),
+    path('login/', views.loginPage, name='hello'),
+    path('view/login', views.login, name="login")
 ]
