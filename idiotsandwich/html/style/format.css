@@ -20,11 +20,23 @@ body {
     padding: 1%;
 
     width: 100%;
-    height: fit-content;
 
     display: grid;
-    grid-template-columns: 93% 7%;
+    grid-template-columns: 92% 1fr;
 }
 #navbar h1 {
     margin: 0px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+#navbar a {
+    text-align: center;
+    padding: 25px 15px;
+    border-radius: 10px;
+    background-color: inherit;
+    text-decoration: none;
+    color: var(--background);
+}
+#navbar a:hover {
+    filter: brightness(125%);
 }
