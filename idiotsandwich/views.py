@@ -20,5 +20,7 @@ def loginPage(request):
     )
 
 def login(request):
-    action = request.POST['action']
+    print(request.POST['username'])
+    action = request.POST['username']
     print(action)
+    return hello(request)
