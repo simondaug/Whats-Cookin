@@ -22,11 +22,41 @@
         <script type="text/javascript" src="./js/input.js" defer></script>
         <script type="text/javascript" src="./js/output.js" defer></script>
         <script type="text/javascript" src="./js/sort.js" defer></script>
+        <script type="text/javascript" src="./js/carousel.js" defer></script>
     </head>
     <body>
         <div id="navbar">
             <h1>KrOwOger? I Hardly Know Er</h1>
         </div>
+
+        <div class="carousel" data-carousel>
+            <button class="carousel-button back" data-carousel-button="back">&#8592;</button>
+            <button class="carousel-button next" data-carousel-button="next">&#8594;</button>
+            <ul data-slides>
+                <li class="slide" data-active>
+                    <div class="carousel-card">
+                        Page 1
+                        <br>
+                        This is some dummy data, will be swapped out later for more critical information.
+                    </div>
+                </li>
+                <li class="slide">
+                    <div class="carousel-card">
+                        Page 2
+                        <br>
+                        This contains more information, wonder what it could be
+                    </div>
+                </li>
+                <li class="slide">
+                    <div class="carousel-card">
+                        Page 3
+                        <br>
+                        Final slide of the carousel
+                    </div>
+                </li>
+            </ul>
+        </div>
+
         <div>
             <h1>About</h1>
             <p>Enter in the recent meals you've eaten. Press "Add Another Food" if you need more spots for entry. Once you've filled out a few, click submit to get meal suggestions based on what you've eaten.</p>
@@ -49,6 +79,6 @@
             </div>
             <div id="foodOist"></div>
         </div>
-        <img id="footer" src="images/kroger-footer.png">
+        <!-- <img id="footer" src="images/kroger-footer.png"> -->
     </body>
 </html>

@@ -38,8 +38,3 @@ function sort() {
     console.log(getData());
     cleanUp();
 }
-
-function nothing() {
-    let x = 1+1;
-    x = x + 1;
-}
