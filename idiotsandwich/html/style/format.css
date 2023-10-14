@@ -1,4 +1,9 @@
 * {
     box-sizing: border-box;
-    font-family: "Alata";
+    font-family: var(--font);
+}
+:root {
+    --accent: "#084999";
+    --background: "#ffffff";
+    --font: "Rubik";
 }
