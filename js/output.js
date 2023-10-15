@@ -12,6 +12,7 @@ function cleanUp() {
 }
 
 function capitalize(words) {
+    words = words.replace(" s ", "'s ");
     let capN = true;
     for (let i = 0; i < words.length; i++) {
         if (capN == true) {
@@ -38,12 +39,22 @@ function addOutput(item) {
     base.appendChild(ing);
 
     let lis = document.createElement("ul");
+    lis.classList.add("ingredients-list");
     for (let i = 0; i < item.ingredients.length; i++) {
         let ois = document.createElement("li");
         ois.innerText = item.ingredients[i];
         lis.appendChild(ois);
     }
     base.appendChild(lis);
+
+    let pr = document.createElement("p");
+    pr.innerHTML = "<b>Prep Time: </b>" + item.time + " minutes";
+    base.appendChild(pr);
+
+    let hr = document.createElement("a");
+    hr.innerText = item.link;
+    hr.href = item.link;
+    base.appendChild(hr);
 
     document.getElementById("foodOist").appendChild(base);
 }
@@ -60,6 +71,7 @@ function getData() {
 }
 function sort() {
     let items = submitMeals(getData());
+    console.log(items);
     cleanUp();
 
     for (let i = 0; i < items.length; i++) {
