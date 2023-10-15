@@ -1,4 +1,4 @@
-function drawChart(mama, mamaHouse) {
+function drawChart(mama, mamaHouse, mamaName) {
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
@@ -12,7 +12,7 @@ function drawChart(mama, mamaHouse) {
         ]);
 
         var options = {
-            title: 'Current Intake'
+            title: mamaName
         };
 
         var chart = new google.visualization.PieChart(document.getElementById(mamaHouse));
@@ -96,9 +96,11 @@ function getData() {
     return listOfMeals;
 }
 function sort() {
+    let fooder = document.getElementById("diets").value;
+    console.log(fooder);
     let items = submitMeals(getData());
-    drawChart(items[0].current, "piecharta");
-    drawChart(items[0].needs, "piechartb");
+    drawChart(items[0].current, "piecharta", "Current Intake");
+    drawChart(items[0].needs, "piechartb", "Desired Intake");
     console.log(items);
     cleanUp();
 
