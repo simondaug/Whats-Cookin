@@ -11,22 +11,36 @@ function cleanUp() {
 
 }
 
+function capitalize(words) {
+    let capN = true;
+    for (let i = 0; i < words.length; i++) {
+        if (capN == true) {
+            words = words.substring(0, i) + words.substring(i, i + 1).toUpperCase() + words.substring(i + 1);
+            capN = false;
+        }
+        if (words.substring(i, i + 1) == " ") {
+            capN = true;
+        }
+    }
+    return words;
+}
+
 function addOutput(item) {
     let base = document.createElement("div");
     base.classList.add("meal-output");
 
     let name = document.createElement("h3");
-    name.innerText = "Name of Meal";
+    name.innerText = capitalize(item.name);
     base.appendChild(name);
 
-    let ing = document.createElement("h6");
+    let ing = document.createElement("h4");
     ing.innerText = "Ingredients";
     base.appendChild(ing);
 
     let lis = document.createElement("ul");
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < item.ingredients.length; i++) {
         let ois = document.createElement("li");
-        ois.innerText = "cow tools";
+        ois.innerText = item.ingredients[i];
         lis.appendChild(ois);
     }
     base.appendChild(lis);
@@ -45,10 +59,10 @@ function getData() {
     return listOfMeals;
 }
 function sort() {
-    console.log(getData());
+    let items = submitMeals(getData());
     cleanUp();
 
-    for (let i = 0; i < 10; i++) {
-        addOutput(i);
+    for (let i = 0; i < items.length; i++) {
+        addOutput(items[i]);
     }
 }
