@@ -22,8 +22,6 @@ function submitMeals(meals) {
         totNuts[0] += data["nuts"][0]/4;
         totNuts[1] += data["nuts"][1]/9;
         totNuts[2] += data["nuts"][2]/4;
-        console.log(data["nuts"]);
-        console.log(totNuts);
     });
     totNutsTot = totNuts[0] + totNuts[1] + totNuts[2];
     goals = [.2, .145, .65];
@@ -42,7 +40,6 @@ function processMeal(mealName) {
 
 function meal(mealName) {
     nm = fuzzysort.go(mealName, Object.values(recipes["name"]), options={limit: 1})[0]['target'];
-    console.log(nm)
     idx = Object.values(recipes["name"]).indexOf(nm);
     return idx;
 }
@@ -73,19 +70,30 @@ function chooseMeals(needs) {
     found = false;
     RKs = Object.keys(recipes["name"]);
     scores = [];
-    while (scores.length < 100) {
+    while (scores.length < 1000) {
         idx = Math.floor(Math.random()*RKs.length);
         ingredients = recipes["ingredients"][idx];
         ingredients = ingredients.substring(2,ingredients.length-2).split("', '");
         igNuts = nutrition(ingredients)["nuts"];
-        igSum = igNuts[0] + igNuts[1] + igNuts[2];
-        igScore = [igNuts[0]/igSum, igNuts[1]/igSum, igNuts[2]/igSum];
-        igNScore = Math.abs(needs[0]-igNuts[0]) + Math.abs(needs[1]-igNuts[1]) + Math.abs(needs[2]-igNuts[2]);
-        obj = new Object();
-        obj.score = igNScore;
-        obj.name = recipes["name"][idx];
-        obj.ingredients = ingredients;
-        scores.push(obj);
+        if (!(igNuts[0] == 0 || igNuts[1] == 0 || igNuts[2] == 0)) {
+            igSum = igNuts[0] + igNuts[1] + igNuts[2];
+            igScore = [igNuts[0]/igSum, igNuts[1]/igSum, igNuts[2]/igSum];
+            igNScore = Math.abs(needs[0]-igNuts[0]) + Math.abs(needs[1]-igNuts[1]) + Math.abs(needs[2]-igNuts[2]);
+            obj = new Object();
+            obj.score = igNScore;
+            obj.name = recipes["name"][idx];
+            obj.time = recipes["minutes"][idx];
+            link = obj.name.split(" ");
+            cLink = link[0].trim();
+            for (i = 1; i < link.length; i++) {
+                cLink = cLink + "-" + link[i].trim();
+            }
+            obj.link = 'https://www.food.com/recipe/' + cLink + "-" + recipes["id"][idx];
+            obj.ingredients = ingredients;
+            obj.needs = needs;
+            obj.current = percentages;
+            scores.push(obj);
+        }
         RKs.splice(idx, 1);
     }
     scores.sort(function(a, b){return a.score-b.score});
