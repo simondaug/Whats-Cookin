@@ -6,12 +6,25 @@ fetch('../nutrition.json')
     .then((response) => response.json())
     .then((json) => NutritionFacts = json);
 
-    proteins = ['Legumes and Legume Products','Sausages and Luncheon Meats','Poultry Products','Finfish and Shellfish Products','Beef Products','Pork Products','American Indian/Alaska Native Foods','Lamb, Veal, and Game Products'];
-    vegPs = ['Spices and Herbs',];
-    fats = ['Dairy and Egg Products','Fats and Oils','Soups, Sauces, and Gravies',];
-    carbs = ['Baked Products','Sweets','Cereal Grains and Pasta','Breakfast Cereals'];
-
-function submitMeals(meals) {
+veg = ['Sausages and Luncheon Meats','Poultry Products','Finfish and Shellfish Products','Beef Products','Pork Products','American Indian/Alaska Native Foods','Lamb, Veal, and Game Products'];
+pesk = ['Sausages and Luncheon Meats','Poultry Products','Beef Products','Pork Products','American Indian/Alaska Native Foods','Lamb, Veal, and Game Products'];
+vgn = ['Dairy and Egg Products','Sausages and Luncheon Meats','Poultry Products','Finfish and Shellfish Products','Beef Products','Pork Products','American Indian/Alaska Native Foods','Lamb, Veal, and Game Products']
+vegetarian = false;
+vegan = false;
+pesketaryen = false;
+//Take the meals that the user has submitted and determine which food groups they need
+function submitMeals(meals, diet) {
+    switch (diet) {
+        case "vegetarian":
+            vegetarian = true;
+            break;
+        case "vegan":
+            vegan = true;
+            break;
+        case "pescetarian":
+            pesketaryen = true;
+            break;
+    }
     numFruits = 0;
     numVegs = 0;
     totNuts = [0, 0, 0];
@@ -24,12 +37,13 @@ function submitMeals(meals) {
         totNuts[2] += data["nuts"][2]/4;
     });
     totNutsTot = totNuts[0] + totNuts[1] + totNuts[2];
-    goals = [.2, .145, .65];
+    goals = [.285, .21, .505];
     percentages = [totNuts[0]/totNutsTot, totNuts[1]/totNutsTot, totNuts[2]/totNutsTot];
     needs = [2*goals[0]-percentages[0], 2*goals[1]-percentages[1], 2*goals[2]-percentages[2]];
     return chooseMeals(needs);
 }
 
+//Determine a passable recipe for the meal a user has eaten, and return the nutritional value of the ingredients
 function processMeal(mealName) {
     idx = meal(mealName);
     nm = Object.values(recipes["name"])[idx];
@@ -38,16 +52,20 @@ function processMeal(mealName) {
     return nutrition(ingredients);
 }
 
+//Find the closest stored recipe to the meal the user has eaten using fuzzy sort
 function meal(mealName) {
     nm = fuzzysort.go(mealName, Object.values(recipes["name"]), options={limit: 1})[0]['target'];
     idx = Object.values(recipes["name"]).indexOf(nm);
     return idx;
 }
 
+
+//Determine the food groups and nutrition of a list of ingredients
 function nutrition(ingredients) {
-    nuts = [0, 0, 0]
-    numFruits = 0
-    numVegs = 0
+    nuts = [0, 0, 0];
+    numFruits = 0;
+    numVegs = 0;
+    i = 0;
     ingredients.forEach(ing => {
         nf = fuzzysort.go(ing, Object.keys(NutritionFacts), options={limit: 1});
         if (nf["total"] != 0) {
@@ -58,14 +76,16 @@ function nutrition(ingredients) {
             else if (category == 'Vegetables and Vegetable Products') {
                 numVegs++;
             }
-            nuts[0] += Object.values(NutritionFacts[nf[0]["target"]]["nutrients"])[0];
-            nuts[1] += Object.values(NutritionFacts[nf[0]["target"]]["nutrients"])[1];
-            nuts[2] += Object.values(NutritionFacts[nf[0]["target"]]["nutrients"])[2];
+            nuts[0] += Object.values(NutritionFacts[nf[0]["target"]]["nutrients"])[0]*(.5^i);
+            nuts[1] += Object.values(NutritionFacts[nf[0]["target"]]["nutrients"])[1]*(.5^i);
+            nuts[2] += Object.values(NutritionFacts[nf[0]["target"]]["nutrients"])[2]*(.5^i);
         }
+        i++;
     });
     return {"fruit": numFruits, "veg": numVegs, "nuts": nuts};
 }
 
+//Recommend the user meals that would best fit the suggested food groups that they need
 function chooseMeals(needs) {
     found = false;
     RKs = Object.keys(recipes["name"]);
@@ -74,8 +94,42 @@ function chooseMeals(needs) {
         idx = Math.floor(Math.random()*RKs.length);
         ingredients = recipes["ingredients"][idx];
         ingredients = ingredients.substring(2,ingredients.length-2).split("', '");
+        dietary = true;
         igNuts = nutrition(ingredients)["nuts"];
-        if (!(igNuts[0] == 0 || igNuts[1] == 0 || igNuts[2] == 0)) {
+        if (vegetarian) {
+            ingredients.forEach(ing => {
+                nf = fuzzysort.go(ing, Object.keys(NutritionFacts), options={limit: 1});
+                if (nf["total"] != 0) {
+                    category = NutritionFacts[nf[0]["target"]]["category"];
+                    if (veg.includes(category)) {
+                        dietary = false;
+                    }
+                }
+            });
+        }
+        if (pesketaryen) {
+            ingredients.forEach(ing => {
+                nf = fuzzysort.go(ing, Object.keys(NutritionFacts), options={limit: 1});
+                if (nf["total"] != 0) {
+                    category = NutritionFacts[nf[0]["target"]]["category"];
+                    if (pesk.includes(category)) {
+                        dietary = false;
+                    }
+                }
+            });
+        }
+        if (vegan) {
+            ingredients.forEach(ing => {
+                nf = fuzzysort.go(ing, Object.keys(NutritionFacts), options={limit: 1});
+                if (nf["total"] != 0) {
+                    category = NutritionFacts[nf[0]["target"]]["category"];
+                    if (vgn.includes(category)) {
+                        dietary = false;
+                    }
+                }
+            });
+        }
+        if (dietary && !(igNuts[0] == 0 || igNuts[1] == 0 || igNuts[2] == 0)) {
             igSum = igNuts[0] + igNuts[1] + igNuts[2];
             igScore = [igNuts[0]/igSum, igNuts[1]/igSum, igNuts[2]/igSum];
             igNScore = Math.abs(needs[0]-igNuts[0]) + Math.abs(needs[1]-igNuts[1]) + Math.abs(needs[2]-igNuts[2]);
@@ -98,7 +152,7 @@ function chooseMeals(needs) {
     }
     scores.sort(function(a, b){return a.score-b.score});
     out = [];
-    for (i=0; i < 10; i++) {
+    for (i=0; i < 12; i++) {
         out.push(scores[i]);
     }
     return out;

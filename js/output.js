@@ -98,7 +98,7 @@ function getData() {
 function sort() {
     let fooder = document.getElementById("diets").value;
     console.log(fooder);
-    let items = submitMeals(getData());
+    let items = submitMeals(getData(), fooder);
     drawChart(items[0].current, "piecharta", "Current Intake");
     drawChart(items[0].needs, "piechartb", "Desired Intake");
     console.log(items);
