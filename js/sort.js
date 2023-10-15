@@ -73,19 +73,21 @@ function chooseMeals(needs) {
     found = false;
     RKs = Object.keys(recipes["name"]);
     scores = [];
-    while (scores.length < 100) {
+    while (scores.length < 1000) {
         idx = Math.floor(Math.random()*RKs.length);
         ingredients = recipes["ingredients"][idx];
         ingredients = ingredients.substring(2,ingredients.length-2).split("', '");
         igNuts = nutrition(ingredients)["nuts"];
-        igSum = igNuts[0] + igNuts[1] + igNuts[2];
-        igScore = [igNuts[0]/igSum, igNuts[1]/igSum, igNuts[2]/igSum];
-        igNScore = Math.abs(needs[0]-igNuts[0]) + Math.abs(needs[1]-igNuts[1]) + Math.abs(needs[2]-igNuts[2]);
-        obj = new Object();
-        obj.score = igNScore;
-        obj.name = recipes["name"][idx];
-        obj.ingredients = ingredients;
-        scores.push(obj);
+        if (!(igNuts[0] == 0 || igNuts[1] == 0 || igNuts[2] == 0)) {
+            igSum = igNuts[0] + igNuts[1] + igNuts[2];
+            igScore = [igNuts[0]/igSum, igNuts[1]/igSum, igNuts[2]/igSum];
+            igNScore = Math.abs(needs[0]-igNuts[0]) + Math.abs(needs[1]-igNuts[1]) + Math.abs(needs[2]-igNuts[2]);
+            obj = new Object();
+            obj.score = igNScore;
+            obj.name = recipes["name"][idx];
+            obj.ingredients = ingredients;
+            scores.push(obj);
+        }
         RKs.splice(idx, 1);
     }
     scores.sort(function(a, b){return a.score-b.score});
