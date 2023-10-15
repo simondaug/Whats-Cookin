@@ -14,7 +14,8 @@ for food in usda["FoundationFoods"]:
                     nutrients["fatValue"] = test["fatValue"]
                 if ("carbohydrateValue" in test.keys()):
                     nutrients["carbohydrateValue"] = test["carbohydrateValue"]
-    out[food["description"]] = {"category": food["foodCategory"]["description"], "nutrients": nutrients}
+    nm = food["description"].split(',')
+    out[nm[0]] = {"category": food["foodCategory"]["description"], "nutrients": nutrients} 
 for food in sr["SRLegacyFoods"]:
     nutrients = {"proteinValue": 0, "fatValue": 0, "carbohydrateValue": 0}
     if (len(food["nutrientConversionFactors"]) > 1):
@@ -26,7 +27,8 @@ for food in sr["SRLegacyFoods"]:
                     nutrients["fatValue"] = test["fatValue"]
                 if ("carbohydrateValue" in test.keys()):
                     nutrients["carbohydrateValue"] = test["carbohydrateValue"]
-    out[food["description"]] = {"category": food["foodCategory"]["description"], "nutrients": nutrients}  
+    nm = food["description"].split(',')
+    out[nm[0]] = {"category": food["foodCategory"]["description"], "nutrients": nutrients} 
 categories = []
 for item in out:
     if (not out[item]["category"] in categories):
