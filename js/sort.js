@@ -22,8 +22,6 @@ function submitMeals(meals) {
         totNuts[0] += data["nuts"][0]/4;
         totNuts[1] += data["nuts"][1]/9;
         totNuts[2] += data["nuts"][2]/4;
-        console.log(data["nuts"]);
-        console.log(totNuts);
     });
     totNutsTot = totNuts[0] + totNuts[1] + totNuts[2];
     goals = [.2, .145, .65];
@@ -42,7 +40,6 @@ function processMeal(mealName) {
 
 function meal(mealName) {
     nm = fuzzysort.go(mealName, Object.values(recipes["name"]), options={limit: 1})[0]['target'];
-    console.log(nm)
     idx = Object.values(recipes["name"]).indexOf(nm);
     return idx;
 }
