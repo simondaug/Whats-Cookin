@@ -82,7 +82,16 @@ function chooseMeals(needs) {
             obj = new Object();
             obj.score = igNScore;
             obj.name = recipes["name"][idx];
+            obj.time = recipes["minutes"][idx];
+            link = obj.name.split(" ");
+            cLink = link[0].trim();
+            for (i = 1; i < link.length; i++) {
+                cLink = cLink + "-" + link[i].trim();
+            }
+            obj.link = 'https://www.food.com/recipe/' + cLink + "-" + recipes["id"][idx];
             obj.ingredients = ingredients;
+            obj.needs = needs;
+            obj.current = percentages;
             scores.push(obj);
         }
         RKs.splice(idx, 1);
