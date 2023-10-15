@@ -1,5 +1,28 @@
+function drawChart(mama, mamaHouse) {
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+            ['Nutrient', 'Percent Nutient Intake'],
+            ['Protein', Math.max(mama[0], 0)],
+            ['Fats', Math.max(mama[1], 0)],
+            ['Carbohydrates', Math.max(mama[2], 0)]
+        ]);
+
+        var options = {
+            title: 'Current Intake'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById(mamaHouse));
+
+        chart.draw(data, options);
+    }
+}
 function cleanUp() {
     document.getElementById("foodInput").style.display = "none";
+    document.getElementById("description").style.display = "none";
 
     document.getElementById("loading").style.display = "flex";
     
@@ -7,6 +30,9 @@ function cleanUp() {
         document.getElementById("loading").style.display = "none";
 
         document.getElementById("foodOutput").style.display = "block";
+        document.getElementById("desb").style.display = "grid";
+
+        drawChart();
     }, 3000);
 
 }
@@ -71,6 +97,8 @@ function getData() {
 }
 function sort() {
     let items = submitMeals(getData());
+    drawChart(items[0].current, "piecharta");
+    drawChart(items[0].needs, "piechartb");
     console.log(items);
     cleanUp();
 

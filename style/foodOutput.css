@@ -8,6 +8,10 @@
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 2%;
 }
+#desb {
+    display: none;
+    grid-template-columns: 2fr 1fr 1fr;
+}
 
 .meal-output {
     position: relative;
